@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <NoWarn>IDE0044;IDE0017</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

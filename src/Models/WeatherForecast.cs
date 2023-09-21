@@ -1,4 +1,4 @@
-namespace tutorial1;
+namespace tutorial1.Models;
 
 public class WeatherForecast
 {
