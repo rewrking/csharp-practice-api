@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using tutorial1.Models;
 using tutorial1.ResponseUtils;
 using tutorial1.Services;
 
@@ -7,11 +8,11 @@ namespace tutorial1.Controllers;
 [ApiController]
 public class BaseController<Model, ViewModel> : ControllerBase
  	where ViewModel : class
-	where Model : class, ViewModel
+	where Model : class, ViewModel, IBaseModel<ViewModel>, new()
 {
-	protected readonly IService<Model> service;
+	protected readonly IService<Model, ViewModel> service;
 
-	public BaseController(IService<Model> service) : base()
+	public BaseController(IService<Model, ViewModel> service) : base()
 	{
 		this.service = service;
 	}
@@ -69,7 +70,29 @@ public class BaseController<Model, ViewModel> : ControllerBase
 		return Ok(await WithErrorHandlers(async () =>
 		{
 			var response = new ResponseObject<ViewModel>(RequestMethod.POST);
-			response.Data = await service.CreateOne((Model)newItem);
+			response.Data = await service.CreateOne(newItem);
+			return response;
+		}));
+	}
+
+	[HttpPut("{id}")]
+	public async Task<ActionResult<ResponseObject<ViewModel>>> UpdateOne(int id, ViewModel newItem)
+	{
+		return Ok(await WithErrorHandlers(async () =>
+		{
+			var response = new ResponseObject<ViewModel>(RequestMethod.PUT);
+			response.Data = await service.UpdateOne(id, newItem);
+			return response;
+		}));
+	}
+
+	[HttpDelete("{id}")]
+	public async Task<ActionResult<ResponseObject<bool>>> DeleteOne(int id)
+	{
+		return Ok(await WithErrorHandlers(async () =>
+		{
+			var response = new ResponseObject<bool>(RequestMethod.PUT);
+			response.Data = await service.DeleteOne(id);
 			return response;
 		}));
 	}
