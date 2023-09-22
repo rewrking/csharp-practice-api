@@ -18,8 +18,8 @@ public class CharacterService : IService<CharacterModel, Character>
 	{
 		CharacterModel item = new();
 		item.Id = nextId++;
-		item.CreatedAt = DateTime.Now;
-		item.UpdatedAt = DateTime.Now;
+		item.CreatedAt = new(DateTime.Now.Ticks);
+		item.UpdatedAt = new(DateTime.Now.Ticks);
 		item.Update(newItem);
 		characters.Add(item);
 		return item;
@@ -43,7 +43,7 @@ public class CharacterService : IService<CharacterModel, Character>
 	{
 		var item = await ReadOne(id);
 		item.Update(newItem);
-		item.UpdatedAt = DateTime.Now;
+		item.UpdatedAt = new(DateTime.Now.Ticks);
 		return item;
 	}
 
@@ -53,7 +53,7 @@ public class CharacterService : IService<CharacterModel, Character>
 		if (item == null)
 			return false;
 
-		item.DeletedAt = DateTime.Now;
+		item.DeletedAt = new(DateTime.Now.Ticks);
 		characters.Remove(item);
 		return true;
 	}
