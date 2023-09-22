@@ -18,8 +18,8 @@ public class CharacterService : IService<CharacterModel, Character>
 	{
 		CharacterModel item = new();
 		item.Id = nextId++;
-		item.CreatedAt = new(DateTime.Now.Ticks);
-		item.UpdatedAt = new(DateTime.Now.Ticks);
+		item.CreatedAt = DateTime.Now;
+		item.UpdatedAt = DateTime.Now;
 		item.Update(newItem);
 		characters.Add(item);
 		return item;
@@ -36,14 +36,14 @@ public class CharacterService : IService<CharacterModel, Character>
 		if (item != null)
 			return item;
 
-		throw new ApiException(StatusCode.NotFound, "Character not found");
+		throw new ApiException(StatusCode.NotFound, $"{typeof(Character).Name} with id of '{id}` not found");
 	}
 
 	public async Task<CharacterModel> UpdateOne(int id, Character newItem)
 	{
 		var item = await ReadOne(id);
 		item.Update(newItem);
-		item.UpdatedAt = new(DateTime.Now.Ticks);
+		item.UpdatedAt = DateTime.Now;
 		return item;
 	}
 
@@ -53,7 +53,7 @@ public class CharacterService : IService<CharacterModel, Character>
 		if (item == null)
 			return false;
 
-		item.DeletedAt = new(DateTime.Now.Ticks);
+		item.DeletedAt = DateTime.Now;
 		characters.Remove(item);
 		return true;
 	}
