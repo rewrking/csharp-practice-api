@@ -7,8 +7,8 @@ namespace tutorial1.Controllers;
 
 [ApiController]
 public class BaseController<Model, ViewModel> : ControllerBase
- 	where ViewModel : class
-	where Model : class, ViewModel, IBaseModel<ViewModel>, new()
+ 	where ViewModel : class, new()
+	where Model : ViewModel, IBaseModel<ViewModel>
 {
 	protected readonly IService<Model, ViewModel> service;
 

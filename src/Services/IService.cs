@@ -3,8 +3,8 @@ using tutorial1.Models;
 namespace tutorial1.Services;
 
 public interface IService<Model, ViewModel>
- 	where ViewModel : class
-	where Model : class, ViewModel, IBaseModel<ViewModel>, new()
+ 	where ViewModel : class, new()
+	where Model : ViewModel, IBaseModel<ViewModel>
 {
 	Task<Model> CreateOne(ViewModel newItem);
 	Task<List<Model>> ReadAll();
